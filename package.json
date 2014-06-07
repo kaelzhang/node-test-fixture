@@ -1,7 +1,7 @@
 {
   "name": "test-fixture",
-  "version": "0.1.0",
-  "description": "test-fixture",
+  "version": "0.1.1",
+  "description": "Copy test-fixtures to temp dir and get resolved file paths.",
   "main": "index.js",
   "scripts": {
     "test": "make test"
@@ -11,7 +11,12 @@
     "url": "git://github.com/kaelzhang/node-test-fixture.git"
   },
   "keywords": [
-    "test-fixture"
+    "test",
+    "fixtures",
+    "resolve",
+    "copy",
+    "temp",
+    "tmp"
   ],
   "engines": {
     "node": ">=0.11.0"
