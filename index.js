@@ -9,25 +9,26 @@ var _ = require('underscore');
 
 // @param {path...}
 function fixtures () {
-  var root = node_path.resolve('test', 'fixtures');
-  var path = fixtures._resolve(root, arguments);
-  return new Fixtures(path);
+  return new Fixtures(arguments);
 }
 
-function Fixtures (path) {
-  this.path = path;
+// @param {Arguments|Array} args
+function Fixtures (args) {
+  this.root = this._root();
+  this.path = fixtures._resolve(this.root, args);
+};
+
+
+// Method for override
+// @returns the root of 
+Fixtures.prototype._root = function() {
+  return node_path.resolve('test', 'fixtures');
 };
 
 
 // @param {path...} arguments
 Fixtures.prototype.resolve = function() {
   return fixtures._resolve(this.path, arguments);
-};
-
-
-// @param {path...} arguments
-Fixtures.prototype.dest = function() {
-  return fixtures._resolve(this.dir, arguments);
 };
 
 
@@ -59,9 +60,8 @@ Fixtures.prototype.copy = function(callback) {
         return callback(err);
       }
 
-      self.dir = dir;
+      self.path = dir;
       callback(err, dir);
     });
   });
 };
-
