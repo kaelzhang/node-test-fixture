@@ -4,6 +4,7 @@ var expect = require('chai').expect;
 var fixtures = require('../');
 var node_path = require('path');
 var fs = require('fs');
+var util = require('util');
 
 var root = node_path.join(__dirname, 'fixtures');
 
@@ -79,7 +80,6 @@ describe(".resolve()", function(){
 });
 
 describe(".resolve(), copied", function(){
-
   it("a", function(done){
     var f = fixtures('a');
     f.copy(function (err, dir) {
@@ -91,6 +91,29 @@ describe(".resolve(), copied", function(){
       expect(f.resolve('a')).to.equal(node_path.join(path, 'a'));
       expect(f.resolve()).to.equal(path);
     });
+  });
+});
+
+describe("inheritance", function(){
+  it("override ._root()", function(done){
+    var Fixtures = fixtures.Fixtures;
+    function My (args) {
+      Fixtures.call(this, args);
+    }
+
+    util.inherits(My, Fixtures);
+    My.prototype._root = function() {
+      return __dirname;
+    };
+
+    function my () {
+      return new My(arguments);
+    }
+
+    var m = my();
+    expect(m.resolve()).to.equal(__dirname);
+    expect(m.resolve('a')).to.equal(node_path.join(__dirname, 'a'));
+    done();
   });
 });
 

@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = fixtures;
+fixtures.Fixtures = Fixtures;
 
 var node_path = require('path');
 var tmp = require('tmp');

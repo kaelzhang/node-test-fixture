@@ -89,6 +89,16 @@ f.copy(to, function(err, dir){
 ``` 
 
 
+## For Implementors
+
+### fixtures.Fixtures(args)
+
+- args `Arguments|Array` paths to join
+
+### Override: ._root()
+
+Returns `path` the base root. By default, it will returns 'test/fixtures', but you can override this method to specify it by your own.
+
 ## License
 
 MIT
