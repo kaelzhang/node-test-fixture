@@ -78,13 +78,7 @@ describe(".resolve()", function(){
   });
 });
 
-describe(".dest()", function(){
-  it("null", function(done){
-    var f = fixtures('a');
-    expect(f.dest('a')).to.equal(null);
-    expect(f.dest()).to.equal(null);
-    done()
-  });
+describe(".resolve(), copied", function(){
 
   it("a", function(done){
     var f = fixtures('a');
@@ -94,8 +88,8 @@ describe(".dest()", function(){
         return;
       }
       var path = dir;
-      expect(f.dest('a')).to.equal(node_path.join(path, 'a'));
-      expect(f.dest()).to.equal(path);
+      expect(f.resolve('a')).to.equal(node_path.join(path, 'a'));
+      expect(f.resolve()).to.equal(path);
     });
   });
 });
