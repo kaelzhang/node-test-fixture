@@ -66,6 +66,19 @@ describe(".copy", function(){
       expect_file(f.path, dir, 'c');
     });
   });
+
+  it("to specified folder", function(done){
+    var f = fixtures();
+    f.copy(node_path.join(__dirname,'temp'), function(err,dir){
+      done();
+      if (err) {
+        return;
+      }
+
+      expect_file(f.path, dir, 'a.js');
+      expect_file(f.path, dir, 'c');
+    });
+  });
 });
 
 
