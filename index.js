@@ -49,14 +49,17 @@ fixtures._resolve = function(root, paths) {
 };
 
 
-Fixtures.prototype.copy = function(callback) {
+Fixtures.prototype.copy = function( /* [to], callback */ ) {
   var self = this;
-  tmp.dir(function (err, dir) {
-    if (err) {
-      return callback(err);
-    }
+  if (arguments.length == 2) {
+    var dir = arguments[0];
+    var callback = arguments[1];
+  } else {
+    var callback = arguments[0];
+  }
 
-    fse.copy(self.path, dir, function (err) {
+  function copydir(dir) {
+    fse.copy(self.path, dir, function(err) {
       if (err) {
         return callback(err);
       }
@@ -64,5 +67,16 @@ Fixtures.prototype.copy = function(callback) {
       self.path = dir;
       callback(err, dir);
     });
-  });
+  }
+
+  if (dir) {
+    copydir(dir);
+  } else {
+    tmp.dir(function(err, dir) {
+      if (err) {
+        return callback(err);
+      }
+      copydir(dir);
+    });
+  }
 };
