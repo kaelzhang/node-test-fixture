@@ -33,6 +33,7 @@
   "dependencies": {
     "fs-extra": "^0.10.0",
     "tmp": "^0.1.0",
+    "tmp-promise": "^1.0.5",
     "underscore": "^1.9.1"
   }
 }

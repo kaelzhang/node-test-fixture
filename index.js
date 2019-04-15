@@ -1,82 +1,34 @@
-'use strict';
+const path = require('path')
+const tmp = require('tmp-promise')
+const fse = require('fs-extra')
 
-module.exports = fixtures;
-fixtures.Fixtures = Fixtures;
+class Fixtures {
+  // @param {Array<string>} args
+  constructor (...args) {
+    this._root = this._root()
+    this._path = fixtures._resolve(this._root, ...args)
+  }
 
-var node_path = require('path');
-var tmp = require('tmp');
-var fse = require('fs-extra');
-var _ = require('underscore');
+  // Method for override
+  // @returns the root of
+  _root () {
+    return path.resolve('test', 'fixtures')
+  }
 
-// @param {path...}
-function fixtures () {
-  return new Fixtures(arguments);
+  resolve (...args) {
+    return path.resolve(this._path, ...args)
+  }
+
+  copy (to) {
+    const toDir = to
+      ? to
+      : (await tmp.dir()).path
+
+    await fse.copy(this._path, toDir)
+    this._path = toDir
+  }
 }
 
-// @param {Arguments|Array} args
-function Fixtures (args) {
-  this.root = this._root();
-  this.path = fixtures._resolve(this.root, args);
-};
+const fixtures = module.exports = (...args) => new Fixtures(...args)
 
-
-// Method for override
-// @returns the root of 
-Fixtures.prototype._root = function() {
-  return node_path.resolve('test', 'fixtures');
-};
-
-
-// @param {path...} arguments
-Fixtures.prototype.resolve = function() {
-  return fixtures._resolve(this.path, arguments);
-};
-
-
-// @param {path} root
-// @param {arguments} paths
-fixtures._resolve = function(root, paths) {
-  if (!root) {
-    return null;
-  }
-
-  // 'a' -> '/path/to/test/fixtures/a'
-  // '/path/to/a' -> 'path/to/a'
-  // undefined -> '/path/to/fixtures'
-  // see README.md for details
-  paths = [root].concat(_.toArray(paths));
-  return node_path.resolve.apply(node_path, paths);
-};
-
-
-Fixtures.prototype.copy = function( /* [to], callback */ ) {
-  var self = this;
-  if (arguments.length == 2) {
-    var dir = arguments[0];
-    var callback = arguments[1];
-  } else {
-    var callback = arguments[0];
-  }
-
-  function copydir(dir) {
-    fse.copy(self.path, dir, function(err) {
-      if (err) {
-        return callback(err);
-      }
-
-      self.path = dir;
-      callback(err, dir);
-    });
-  }
-
-  if (dir) {
-    copydir(dir);
-  } else {
-    tmp.dir(function(err, dir) {
-      if (err) {
-        return callback(err);
-      }
-      copydir(dir);
-    });
-  }
-};
+fixtures.Fixtures = Fixtures
