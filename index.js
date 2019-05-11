@@ -19,7 +19,7 @@ class Fixtures {
     return path.resolve(this._path, ...args)
   }
 
-  copy (to) {
+  async copy (to) {
     const toDir = to
       ? to
       : (await tmp.dir()).path
@@ -30,5 +30,3 @@ class Fixtures {
 }
 
 const fixtures = module.exports = (...args) => new Fixtures(...args)
-
-fixtures.Fixtures = Fixtures

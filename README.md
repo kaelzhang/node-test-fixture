@@ -4,10 +4,10 @@ Copy test-fixtures to temp dir and get resolved file paths.
 
 ### Why?
 
-I am tired of writing 
+I am tired of writing
 
-- `path.resolve(__dirname, 'test', 'fixtures')`, 
-- `tmp.dir(callback)`, 
+- `path.resolve(__dirname, 'test', 'fixtures')`,
+- `tmp.dir(callback)`,
 - `fse.copy(fixtures, dir)`
 - `path.join(fixtures, 'file-a.js')`
 
@@ -58,7 +58,7 @@ Copy the test fixtures into a temporary directory.
 
 Resolves the paths to get the path of the test fixtures
 
-After `.copy()`ed, it will resolve paths based on the destination dir. 
+After `.copy()`ed, it will resolve paths based on the destination dir.
 
 If not, it will use the base dir. But never use both of them simultaneously.
 
@@ -86,7 +86,7 @@ f.copy(to, function(err, dir){
   }
   f.resolve('a.js'); // -> /path/to/<to>/a.js
 });
-``` 
+```
 
 
 ## For Implementors
