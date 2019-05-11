@@ -1,3 +1,13 @@
+test/fixtures/**/.next/
+
+# Node, Coverage, NPM
+/.nyc_output
+/coverage
+/coverage.lcov
+/package-lock.json
+/*.tgz
+
+
 # Numerous always-ignore extensions
 *.bak
 *.patch
@@ -12,7 +22,10 @@
 *.vi
 *~
 *.sass-cache
-package-lock.json
+*.lock
+*.rdb
+*.db
+nohup.out
 
 # OS or Editor folders
 .DS_Store
@@ -22,8 +35,8 @@ package-lock.json
 .settings
 .tmproj
 *.esproj
-*.sublime-project
-*.sublime-workspace
+*.*-project
+*.*-workspace
 nbproject
 thumbs.db
 
@@ -36,6 +49,8 @@ node_modules
 old/
 *-old/
 *-notrack/
+no-track/
+no-track.js
 build/
 combo/
 reference/
@@ -43,4 +58,10 @@ jscoverage_lib/
 temp/
 tmp/
 
-
+# Java
+.mvn
+.gradle
+.vscode
+.project
+.classpath
+/gradle
