@@ -9,12 +9,14 @@ Copy test fixtures to a temp dir and get resolved file paths.
 
 I am tired of writing these:
 
-- `path.resolve(__dirname, 'test', 'fixtures')`,
-- `tmp.dir(callback)`,
-- `fse.copy(fixtures, dir)`
-- `path.join(fixtures, 'some-file.js')`
+```js
+path.resolve(__dirname, 'test', 'fixtures')
+tmp.dir(callback)
+fse.copy(fixtures, dir)
+path.join(fixtures, 'some-file.js')
+```
 
-EVERY DAY!
+**EVERY DAY!**
 
 So, I got this.
 
@@ -38,7 +40,7 @@ const {copy, resolve} = require('test-fixture')()
 })
 ```
 
-### fixtures(...paths): {resolve, copy}
+### fixtures(...paths): {resolve, copy, install}
 
 - **paths** `Array<path>` to define the root paths of the fixtures, which is similar as
 
@@ -61,11 +63,24 @@ path.resolve(fixturesRoot, ...args)
 
 Actually, the `base` is `path.resolve('text/fixtures', path...)`
 
+### await copy(options?)
 ### await copy(to?)
 
-- **to?** `path=` the destination folder where the test fixtures will be copied to. If not specified, a temporary directory will be used.
+- **options?** `Object`
+  - **to?** `path=` the destination folder where the test fixtures will be copied to. If not specified, a temporary directory will be used.
+  - **install?** `boolean=false` whether should run npm install after copying
 
 Copy the test fixtures into another directory.
+
+```js
+copy('/path/to')
+
+// is equivalent to
+copy({
+  to: '/path/to',
+  install: false
+})
+```
 
 ### resolve(...paths)
 
@@ -81,6 +96,12 @@ If not, it will use the base dir. But never use both of them simultaneously.
 /path/to/<to>
            |-- a.js
 ```
+
+### install(...pkgs)
+
+- **pkgs?** `Array<{name: string, version: string}>` packages to install
+
+Install packages in the working directory. If run after `await copy()`, then it will install packages in the directory which fixtures copied to.
 
 #### Without copying
 

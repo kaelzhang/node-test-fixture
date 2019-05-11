@@ -1,6 +1,6 @@
 {
   "name": "test-fixture",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Copy test-fixtures to temp dir and get resolved file paths.",
   "main": "index.js",
   "scripts": {
@@ -51,7 +51,9 @@
     "nyc": "^14.1.1"
   },
   "dependencies": {
+    "core-util-is": "^1.0.2",
     "fs-extra": "^7.0.1",
+    "npminstall": "^4.0.0",
     "tmp-promise": "^1.1.0"
   }
 }

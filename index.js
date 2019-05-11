@@ -1,6 +1,8 @@
 const path = require('path')
 const tmp = require('tmp-promise')
 const fse = require('fs-extra')
+const npminstall = require('npminstall')
+const {isObject} = require('core-util-is')
 
 class Fixtures {
   // @param {Array<string>} args
@@ -10,6 +12,7 @@ class Fixtures {
 
     this.resolve = this.resolve.bind(this)
     this.copy = this.copy.bind(this)
+    this.install = this.install.bind(this)
   }
 
   // Method for override
@@ -24,13 +27,35 @@ class Fixtures {
       : path.resolve(this._path, ...args)
   }
 
-  async copy (to) {
+  install (...pkgs) {
+    return npminstall({
+      root: this._path,
+      pkgs
+    })
+  }
+
+  async copy (options) {
+    const {
+      to,
+      install = false
+    } = isObject(options)
+      ? options
+      : {
+        to: options
+      }
+
     const toDir = to
       ? to
       : (await tmp.dir()).path
 
     await fse.copy(this._path, toDir)
-    return this._path = toDir
+    this._path = toDir
+
+    if (install) {
+      await this.install()
+    }
+
+    return toDir
   }
 }
 

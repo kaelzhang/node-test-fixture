@@ -1,0 +1,6 @@
+{
+  "name": "blah",
+  "dependencies": {
+    "mix2": "^1.0.4"
+  }
+}

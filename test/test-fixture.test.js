@@ -41,8 +41,8 @@ const COPY = [
 ]
 
 COPY.forEach(([to]) => {
-  test(`copy: ${to ? 'temp' : to}`, async t => {
-    const {resolve, copy} = fixtures()
+  test(`normal copy: ${to || 'temp'}`, async t => {
+    const {resolve, copy} = fixtures('normal')
     const from = resolve()
 
     const dir = to
@@ -56,4 +56,15 @@ COPY.forEach(([to]) => {
     expect(t, from, dir, 'a.js')
     expect(t, from, dir, 'c')
   })
+})
+
+test('copy and install', async t => {
+  const {resolve, copy} = fixtures('has-deps')
+  await copy({
+    install: true
+  })
+
+  require(resolve('index.js'))
+
+  t.pass()
 })
