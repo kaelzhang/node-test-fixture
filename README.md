@@ -1,15 +1,18 @@
-# test-fixture [![NPM version](https://badge.fury.io/js/test-fixture.svg)](http://badge.fury.io/js/test-fixture) [![Build Status](https://travis-ci.org/kaelzhang/node-test-fixture.svg?branch=master)](https://travis-ci.org/kaelzhang/node-test-fixture) [![Dependency Status](https://gemnasium.com/kaelzhang/node-test-fixture.svg)](https://gemnasium.com/kaelzhang/node-test-fixture)
+[![Build Status](https://travis-ci.org/kaelzhang/node-test-fixture.svg?branch=master)](https://travis-ci.org/kaelzhang/node-test-fixture)
+[![Coverage](https://codecov.io/gh/kaelzhang/node-test-fixture/branch/master/graph/badge.svg)](https://codecov.io/gh/kaelzhang/node-test-fixture)
 
-Copy test-fixtures to temp dir and get resolved file paths.
+# test-fixture
+
+Copy test fixtures to a temp dir and get resolved file paths.
 
 ### Why?
 
-I am tired of writing
+I am tired of writing these:
 
 - `path.resolve(__dirname, 'test', 'fixtures')`,
 - `tmp.dir(callback)`,
 - `fse.copy(fixtures, dir)`
-- `path.join(fixtures, 'file-a.js')`
+- `path.join(fixtures, 'some-file.js')`
 
 EVERY DAY!
 
@@ -18,43 +21,53 @@ So, I got this.
 ## Install
 
 ```bash
-$ npm install test-fixture --save
+$ npm i test-fixture -D
 ```
 
 ## Usage
 
 ```js
-var fixtures = require('test-fixture');
-var f = fixtures(); // by default, it will use 'test/fixtures' dir.
+// By default, it will use 'test/fixtures' dir.
+const {copy, resolve} = require('test-fixture')()
 
 // copy 'test/fixtures' to the temp dir
-f.copy(function(err, dir){
-  f.resolve('a.js'); // '/<temp>/a.js'
-});
+;(async () => {
+  await copy()
+  console.log(resolve('foo.js'))
+  // '/<temp-dir>/foo.js'
+})
 ```
 
-### fixtures([path...])
+### fixtures(...paths): {resolve, copy}
+
+- **paths** `Array<path>` to define the root paths of the fixtures, which is similar as
+
+Defines the root of the fixture
+
+```js
+const path = require('path')
+const fixturesRoot = path.resolve(projectRoot, 'test', 'fixtures')
+
+path.resolve(fixturesRoot, ...args)
+```
 
 `arguments` | `base`(dir of test fixtures)
 --------- | --------------------
 `undefined` | `test/fixtures`
 `'a'` | `test/fixtures/a`
 `'a'`, `'b'` | `test/fixtures/a/b`
-`'/path/to'`(absolute) | `/path/to`
-`'/path/to'`(absolute), `'a'` | `/path/to/a`
+`'/path/to'` (absolute) | `/path/to`
+`'/path/to'` (absolute), `'a'` | `/path/to/a`
 
 Actually, the `base` is `path.resolve('text/fixtures', path...)`
 
-### .copy([to], callback)
+### await copy(to?)
 
-- to `path=` the destination folder where the test fixtures will be copied to. If not specified, `fixtures` will create a temporary dir.
-- callback `function(err, dir)`
-- err `Error`
-- dir `path` the destination directory for testing
+- **to?** `path=` the destination folder where the test fixtures will be copied to. If not specified, a temporary directory will be used.
 
-Copy the test fixtures into a temporary directory.
+Copy the test fixtures into another directory.
 
-### .resolve([path...])
+### resolve(...paths)
 
 Resolves the paths to get the path of the test fixtures
 
@@ -72,34 +85,20 @@ If not, it will use the base dir. But never use both of them simultaneously.
 #### Without copying
 
 ```js
-var f = fixtures(base);
-f.resolve('a.js'); // -> /path/to/<base>/a.js
+const {resolve} = fixtures(base)
+resolve('a.js')  // -> /path/to/<base>/a.js
 ```
 
 #### Using `.copy()`
 
 ```js
-var f = fixtures(base);
-f.copy(to, function(err, dir){
-  if (err) {
-    return;
-  }
-  f.resolve('a.js'); // -> /path/to/<to>/a.js
-});
+const {copy, resolve} = fixtures(base)
+
+await copy('/path/to')
+
+resolve('a.js') // -> /path/to/a.js
 ```
-
-
-## For Implementors
-
-### fixtures.Fixtures(args)
-
-- args `Arguments|Array` paths to join
-
-### Override: ._root()
-
-Returns `path` the base root. By default, it will returns 'test/fixtures', but you can override this method to specify it by your own.
 
 ## License
 
-MIT
-<!-- do not want to make nodeinit to complicated, you can edit this whenever you want. -->
+[MIT](LICENSE)

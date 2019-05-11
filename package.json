@@ -1,6 +1,6 @@
 {
   "name": "test-fixture",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Copy test-fixtures to temp dir and get resolved file paths.",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "tmp"
   ],
   "engines": {
-    "node": ">=0.11.0"
+    "node": ">=7.10.0"
   },
   "author": "kael",
   "license": "MIT",

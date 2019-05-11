@@ -7,6 +7,9 @@ class Fixtures {
   constructor (...args) {
     this._root = this._root()
     this._path = fixtures._resolve(this._root, ...args)
+
+    this.resolve = this.resolve.bind(this)
+    this.copy = this.copy.bind(this)
   }
 
   // Method for override
@@ -29,4 +32,4 @@ class Fixtures {
   }
 }
 
-const fixtures = module.exports = (...args) => new Fixtures(...args)
+module.exports = (...args) => new Fixtures(...args)
