@@ -40,7 +40,7 @@ const {copy, resolve} = require('test-fixture')()
 })
 ```
 
-### fixtures(...paths): {resolve, copy, install}
+### fixtures(...paths): {resolve, copy, install, root}
 
 - **paths** `Array<path>` to define the root paths of the fixtures, which is similar as
 
@@ -62,6 +62,23 @@ path.resolve(fixturesRoot, ...args)
 `'/path/to'` (absolute), `'a'` | `/path/to/a`
 
 Actually, the `base` is `path.resolve('text/fixtures', path...)`
+
+#### Without copying
+
+```js
+const {resolve} = fixtures(base)
+resolve('a.js')  // -> /path/to/<base>/a.js
+```
+
+#### Using `.copy()`
+
+```js
+const {copy, resolve} = fixtures(base)
+
+await copy('/path/to')
+
+resolve('a.js') // -> /path/to/a.js
+```
 
 ### await copy(options?)
 ### await copy(to?)
@@ -104,22 +121,9 @@ If not, it will use the base dir. But never use both of them simultaneously.
 
 Install packages in the working directory. If run after `await copy()`, then it will install packages in the directory which fixtures copied to.
 
-#### Without copying
+### getter: root `string`
 
-```js
-const {resolve} = fixtures(base)
-resolve('a.js')  // -> /path/to/<base>/a.js
-```
-
-#### Using `.copy()`
-
-```js
-const {copy, resolve} = fixtures(base)
-
-await copy('/path/to')
-
-resolve('a.js') // -> /path/to/a.js
-```
+The fixture root `/<project-root>/test/fixtures`
 
 ## License
 

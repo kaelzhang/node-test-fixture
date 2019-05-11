@@ -24,7 +24,7 @@ const PATHS = [
 
 PATHS.forEach(([paths, expected, sub]) => {
   test(`resolve: fixtures(...${JSON.stringify(paths)}), resolve(${sub})`, async t => {
-    const {resolve} = fixtures(...paths)
+    const {resolve, root} = fixtures(...paths)
 
     t.is(
       sub
@@ -32,6 +32,8 @@ PATHS.forEach(([paths, expected, sub]) => {
         : resolve(),
       expected
     )
+
+    t.is(root, fixture())
   })
 })
 

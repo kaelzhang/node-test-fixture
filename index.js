@@ -21,6 +21,10 @@ class Fixtures {
     return path.resolve('test', 'fixtures')
   }
 
+  get root () {
+    return this._root
+  }
+
   resolve (...args) {
     return args.length === 0
       ? this._path
@@ -77,3 +81,4 @@ class Fixtures {
 }
 
 module.exports = (...args) => new Fixtures(...args)
+module.exports.Fixtures = Fixtures
