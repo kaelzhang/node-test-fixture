@@ -99,3 +99,9 @@ test('copy with clean, ENOENT', async t => {
 
   t.pass()
 })
+
+test('fixture(...args)', t => {
+  const {fixture: f} = fixtures()
+
+  t.is(f('a'), fixture('a'))
+})

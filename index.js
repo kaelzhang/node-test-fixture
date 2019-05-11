@@ -13,6 +13,7 @@ class Fixtures {
     this.resolve = this.resolve.bind(this)
     this.copy = this.copy.bind(this)
     this.install = this.install.bind(this)
+    this.fixture = this.fixture.bind(this)
   }
 
   // Method for override
@@ -25,10 +26,12 @@ class Fixtures {
     return this._root
   }
 
+  fixture (...args) {
+    return path.resolve(this._root, ...args)
+  }
+
   resolve (...args) {
-    return args.length === 0
-      ? this._path
-      : path.resolve(this._path, ...args)
+    return path.resolve(this._path, ...args)
   }
 
   install (options = {}) {
