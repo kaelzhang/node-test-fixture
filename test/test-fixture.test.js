@@ -68,3 +68,32 @@ test('copy and install', async t => {
 
   t.pass()
 })
+
+test('copy with clean', async t => {
+  const to = fixture('should-clean')
+  await fs.ensureDir(to)
+  const {copy} = fixtures('normal')
+  await copy({
+    to,
+    clean: true
+  })
+
+  t.pass()
+})
+
+test('copy with clean, ENOENT', async t => {
+  const to = fixture('not-exists')
+  try {
+    await fs.remove(to)
+  } catch (err) {
+    // nothing
+  }
+
+  const {copy} = fixtures('normal')
+  await copy({
+    to,
+    clean: true
+  })
+
+  t.pass()
+})

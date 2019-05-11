@@ -41,12 +41,25 @@ class Fixtures {
   async copy (options) {
     const {
       to,
-      install = false
+      install = false,
+      clean = false
     } = isObject(options)
       ? options
       : {
         to: options
       }
+
+    if (to && clean) {
+      try {
+        await fse.remove(to)
+      } catch (err) {
+        // istanbul ignore next
+        if (err.code !== 'ENOENT') {
+          // istanbul ignore next
+          throw err
+        }
+      }
+    }
 
     const toDir = to
       ? to

@@ -68,6 +68,7 @@ Actually, the `base` is `path.resolve('text/fixtures', path...)`
 
 - **options?** `Object`
   - **to?** `path=` the destination folder where the test fixtures will be copied to. If not specified, a temporary directory will be used.
+  - **clean?** `boolean=false` whether should clean the directory `to` if `options.to` is specified.
   - **install?** `boolean=false` whether should run npm install after copying
 
 Copy the test fixtures into another directory.
