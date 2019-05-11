@@ -27,10 +27,14 @@ class Fixtures {
       : path.resolve(this._path, ...args)
   }
 
-  install (...pkgs) {
+  install (options = {}) {
     return npminstall({
-      root: this._path,
-      pkgs
+      trace: false,
+      // We cant disable spinners due to
+      // https://github.com/cnpm/npminstall/issues/302
+      detail: true,
+      ...options,
+      root: this._path
     })
   }
 

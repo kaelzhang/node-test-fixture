@@ -1,6 +1,6 @@
 {
   "name": "test-fixture",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Copy test-fixtures to temp dir and get resolved file paths.",
   "main": "index.js",
   "scripts": {

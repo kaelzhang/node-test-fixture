@@ -97,9 +97,9 @@ If not, it will use the base dir. But never use both of them simultaneously.
            |-- a.js
 ```
 
-### install(...pkgs)
+### install(options?)
 
-- **pkgs?** `Array<{name: string, version: string}>` packages to install
+- **options?** `Object` options of [`npminstall`](https://npmjs.org/package/npminstall)
 
 Install packages in the working directory. If run after `await copy()`, then it will install packages in the directory which fixtures copied to.
 
