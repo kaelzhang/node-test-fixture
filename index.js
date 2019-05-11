@@ -6,7 +6,7 @@ class Fixtures {
   // @param {Array<string>} args
   constructor (...args) {
     this._root = this._root()
-    this._path = fixtures._resolve(this._root, ...args)
+    this._path = path.resolve(this._root, ...args)
 
     this.resolve = this.resolve.bind(this)
     this.copy = this.copy.bind(this)
@@ -19,7 +19,9 @@ class Fixtures {
   }
 
   resolve (...args) {
-    return path.resolve(this._path, ...args)
+    return args.length === 0
+      ? this._path
+      : path.resolve(this._path, ...args)
   }
 
   async copy (to) {
@@ -28,7 +30,7 @@ class Fixtures {
       : (await tmp.dir()).path
 
     await fse.copy(this._path, toDir)
-    this._path = toDir
+    return this._path = toDir
   }
 }
 

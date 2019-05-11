@@ -1,4 +1,5 @@
 test/fixtures/**/.next/
+test/tmp/
 
 # Node, Coverage, NPM
 /.nyc_output
