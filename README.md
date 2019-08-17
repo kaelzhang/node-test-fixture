@@ -50,10 +50,10 @@ Defines the root of the fixture
 const path = require('path')
 const fixturesRoot = path.resolve(projectRoot, 'test', 'fixtures')
 
-path.resolve(fixturesRoot, ...args)
+path.resolve(fixturesRoot, ...paths)
 ```
 
-`arguments` | `base`(dir of test fixtures)
+`...paths` | `base`(dir of test fixtures)
 --------- | --------------------
 `undefined` | `test/fixtures`
 `'a'` | `test/fixtures/a`
@@ -61,19 +61,19 @@ path.resolve(fixturesRoot, ...args)
 `'/path/to'` (absolute) | `/path/to`
 `'/path/to'` (absolute), `'a'` | `/path/to/a`
 
-Actually, the `base` is `path.resolve('text/fixtures', path...)`
+Actually, the `base` is `path.resolve('text/fixtures', ...paths)`
 
 #### Without copying
 
 ```js
-const {resolve} = fixtures(base)
-resolve('a.js')  // -> /path/to/<base>/a.js
+const {resolve} = fixtures(p)
+resolve('a.js')  // -> /path/to/<p>/a.js
 ```
 
 #### Using `.copy()`
 
 ```js
-const {copy, resolve} = fixtures(base)
+const {copy, resolve} = fixtures(p)
 
 await copy('/path/to')
 
@@ -115,7 +115,7 @@ If not, it will use the base dir. But never use both of them simultaneously.
            |-- a.js
 ```
 
-### install(options?)
+### await install(options?)
 
 - **options?** `Object` options of [`npminstall`](https://npmjs.org/package/npminstall)
 
